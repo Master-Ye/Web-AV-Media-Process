@@ -1,0 +1,3 @@
+const assetsPrefix = {}
+
+export { assetsPrefix }
