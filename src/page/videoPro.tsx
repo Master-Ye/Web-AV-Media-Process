@@ -1,14 +1,17 @@
 
-import { Button, Divider, Radio } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import { assetsPrefix } from '../utils/utils.ts';
 import React from 'react';
 import { MP4Clip } from '@webav/av-cliper';
+import { Divider, Radio } from 'antd';
+import Upload from '../components/upload.tsx';
 const videos = assetsPrefix({
   'bunny.mp4': 'video/bunny.mp4',
   'bear.mp4': 'video/bear-vp9.mp4',
 });
-console.log(videos)
+let video:ReadableStream
+// console.log(video)
 let stop = () => {};
 
 async function start(
@@ -16,8 +19,9 @@ async function start(
   videoType: keyof typeof videos,
   ctx: CanvasRenderingContext2D,
 ) {
-  const resp1 = await fetch(videos[videoType]);
-  const clip = new MP4Clip(resp1.body!);
+  // const resp1 = await fetch(video);
+  const resp = video?video:(await fetch(videos[videoType])).body
+  const clip = new MP4Clip(resp!);
   await clip.ready;
 
   stop();
@@ -94,7 +98,7 @@ async function start(
   }
 }
 
-export default createUI(start);
+
 
 // ---------- 以下是 UI 代码 ---------------
 
@@ -108,13 +112,20 @@ function createUI(start: Function) {
     return (
       <div>
         <Button
+        size='sm'
+        color='primary'
           onClick={() => {
             start(speed, value as keyof typeof videos, ctx);
           }}
         >
-          启动！
+          Button
         </Button>
         <br />
+        <Upload onFileChange={(file)=>{
+            video = file
+        }}
+        fileType={['video/mp4']}
+        maxCount={1}></Upload>
         <Radio.Group
           onChange={(e) => {
             setValue(e.target.value);
@@ -127,6 +138,7 @@ function createUI(start: Function) {
         <Divider type="vertical"></Divider>{' '}
         <Button></Button>
         <Radio.Group
+
           onChange={(e) => {
             setSpeed(e.target.value);
           }}
@@ -148,3 +160,5 @@ function createUI(start: Function) {
     );
   };
 }
+
+export default createUI(start);
