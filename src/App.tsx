@@ -8,6 +8,16 @@ import AllPro from './page/allPro.tsx';
 import Header from './page/header.tsx';
 import SmallPic from './page/smallPic.tsx';
 import SplitTrack from './page/splitTrack.tsx';
+import {
+  Routes,
+  Route,
+  Link,
+  Outlet,
+  useLocation
+} from 'react-router-dom';
+import VideoCut from './page/videoCut.tsx';
+
+
 function App() {
   return (
     <div className="App">
@@ -17,7 +27,8 @@ function App() {
         <AudioPro></AudioPro>
         <AllPro></AllPro> */}
         {/* <SmallPic></SmallPic> */}
-        <SplitTrack></SplitTrack>
+        {/* <SplitTrack></SplitTrack> */}
+        <VideoCut></VideoCut>
       </NextUIProvider>
     </div>
   );

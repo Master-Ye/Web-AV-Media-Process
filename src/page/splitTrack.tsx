@@ -3,16 +3,13 @@ import { Combinator, MP4Clip, OffscreenSprite } from '@webav/av-cliper';
 import { assetsPrefix, downloadFromStream } from '../utils/utils.ts';
 import { Button } from '@nextui-org/react';
 import React from 'react';
+import Upload from '../components/upload.tsx';
 
 const videoSrc = assetsPrefix(['video/bunny_0.mp4']);
 
 let videoClip;
 let audioTrackClip;
-async function start() {
-  const clip = new MP4Clip((await fetch(videoSrc[0])).body!);
-  await clip.ready;
-  [videoClip, audioTrackClip] = await clip.splitTrack();
-}
+
 
 let videoTimer = 0;
 function playVideo(ctx) {
@@ -78,17 +75,47 @@ function stopAudio() {
 
 export default function UI() {
   const [ctx, setCtx] = useState<null | undefined | CanvasRenderingContext2D>();
-
+  const [clip, setClip] = useState<MP4Clip | null>(null);  // 保存clip实例
+  const [video, setVideo] = useState<ReadableStream | null>(null);
+  const [videoClip, setVideoClip] = useState<MP4Clip | null>(null);
+  const [audioTrackClip, setAudioTrackClip] = useState<MP4Clip | null>(null);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (ctx == null) return;
+  //     await start();
+  //   })();
+  // }, [ctx]);
+  async function start() {
+    if (!clip) {
+      console.error("Clip is not initialized");
+      return
+    }
+    await clip.ready;
+    const [videoClip, audioTrackClip] = await clip.splitTrack();
+    setVideoClip(videoClip)
+    setAudioTrackClip(audioTrackClip)
+  }
   useEffect(() => {
+    let video: ReadableStream;
     (async () => {
-      if (ctx == null) return;
-      await start();
-    })();
-  }, [ctx]);
+      const response = await fetch(videoSrc[0]);
+      video = response.body!;
+      setVideo(video)  // 获取视频的 ReadableStream
+    })()
+  }, []);
+  useEffect(() => {
+    // 如果视频源或clip为空，创建新的clip
+    if (video) {
+      console.log(11)
+      const newClip = new MP4Clip(video);
+      setClip(newClip);
+    }
+  }, [video]);
 
   return (
     <div>
       <div className="flex items-center">
+        <Button onClick={start}>开始解析</Button>
         <Button
           onClick={() => {
             playVideo(ctx);
@@ -104,20 +131,38 @@ export default function UI() {
         >
           播放音频
         </Button>
-        <Button onClick={async ()=>{
-            const spr1 = new OffscreenSprite(
-                videoClip
-              );
-              const spr2 = new OffscreenSprite(
-                audioTrackClip
-              );
-              const com = new Combinator({ width: videoClip.meta.width, height: videoClip.meta.height, });
+        <Upload maxCount={1} fileType={['video/mp4']} onFileChange={(file) => {
+          if (!file) {
+            let video: ReadableStream;
+            (async () => {
+              const response = await fetch(videoSrc[0]);
+              video = response.body!;
+              setVideo(video)  // 获取视频的 ReadableStream
+            })()
+          }
+          else {
+            setVideo(file)
+          }
+        }}></Upload>
+        <Button onClick={async () => {
+          console.log(videoClip,audioTrackClip)
+          if(!videoClip||!audioTrackClip) return
+          const spr1 = new OffscreenSprite(
+            videoClip
+          );
+          const spr2 = new OffscreenSprite(
+            audioTrackClip
+          );
+          const com1 = new Combinator({ width: videoClip.meta.width, height: videoClip.meta.height, });
+          const com2 = new Combinator();
+          await com1.addSprite(spr1);
+          await com2.addSprite(spr2);
 
-              await com.addSprite(spr1);
-            //   await com.addSprite(spr2);
-
-            downloadFromStream(com.output(),'video.mp4')
-        }}></Button>
+          await downloadFromStream(com1.output(), 'video.mp4')
+          await downloadFromStream(com2.output(), 'audio.mp3')
+          com1.destroy()
+          com2.destroy()
+        }}>下载</Button>
       </div>
       <canvas
         className="w-full"
