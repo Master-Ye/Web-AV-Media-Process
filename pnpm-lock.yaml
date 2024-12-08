@@ -47,6 +47,9 @@ importers:
       '@webav/av-cliper':
         specifier: ^1.0.5
         version: 1.0.5
+      '@webav/av-recorder':
+        specifier: ^1.0.5
+        version: 1.0.5
       '@xzdarcy/react-timeline-editor':
         specifier: ^0.1.9
         version: 0.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2820,6 +2823,9 @@ packages:
 
   '@webav/av-cliper@1.0.5':
     resolution: {integrity: sha512-2V4ggLVOtTrjkZXW4iUoGIUt4b1yXS36BJoo8kYqULWCvVTuCAqKn8doA8JZHRaNDVlV3KAUnYtwKjshLRk0rQ==}
+
+  '@webav/av-recorder@1.0.5':
+    resolution: {integrity: sha512-XqYgxzZBzLZxY8nhUYLrQhUhmt/6jcQzYP+l06pni2lWJIvpspjMO7HL3aL0M8iL4CeQ/CM54ktpqY4PYdlYeA==}
 
   '@webav/internal-utils@1.0.5':
     resolution: {integrity: sha512-D2Kth0c3g4UPgm4sr+mzZHRjkqgqo3tSG0RbEfFYpjGrvdWew9x2UOjab3PpA2+KsLIZwsf7SOZ6iRf51RMu4w==}
@@ -11319,6 +11325,11 @@ snapshots:
       '@webav/mp4box.js': 0.5.4-fenghen
       opfs-tools: 0.6.1
       wave-resampler: 1.0.0
+
+  '@webav/av-recorder@1.0.5':
+    dependencies:
+      '@webav/av-cliper': 1.0.5
+      '@webav/internal-utils': 1.0.5
 
   '@webav/internal-utils@1.0.5':
     dependencies:

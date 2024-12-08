@@ -58,12 +58,14 @@ const TimelineEditor = ({
       <div>
         <span className="ml-[10px]">缩放：</span>
         <Button
+        color="primary" variant="bordered"
           onClick={() => setScale(scale + 1)}
           className="border rounded-full"
         >
           -
         </Button>
         <Button
+        color="primary" variant="bordered"
           onClick={() => setScale(scale - 1 > 1 ? scale - 1 : 1)}
           className="border rounded-full"
         >
@@ -71,6 +73,7 @@ const TimelineEditor = ({
         </Button>
         <span className="mx-[10px]">|</span>
         <Button
+        color="danger"
           disabled={activeAction == null}
           className="mx-[10px]"
           onClick={() => {
@@ -81,6 +84,7 @@ const TimelineEditor = ({
           删除
         </Button>
         <Button
+        color="warning"
           disabled={activeAction == null}
           className="mx-[10px]"
           onClick={() => {
@@ -169,8 +173,8 @@ export default function App() {
     avCvs?.destroy();
     const cvs = new AVCanvas(cvsWrapEl, {
       bgColor: '#000',
-      width: 1280,
-      height: 720,
+      width: 1024,
+      height: 600,
     });
     setAVCvs(cvs);
     cvs.on('timeupdate', (time) => {
@@ -249,6 +253,7 @@ export default function App() {
       <label htmlFor="clip-source-local"> 本地素材</label>
       <span className="mx-[10px]">|</span>
       <Button
+      color='primary' variant="shadow"
         className="mx-[10px]"
         onClick={async () => {
           const stream =
@@ -267,6 +272,7 @@ export default function App() {
         + 视频
       </Button>
       <Button
+      color='primary' variant="shadow"
         className="mx-[10px]"
         onClick={async () => {
           const stream =
@@ -281,6 +287,7 @@ export default function App() {
         + 音频
       </Button>
       <Button
+      color='primary' variant="shadow"
         className="mx-[10px]"
         onClick={async () => {
           let args;
@@ -305,6 +312,7 @@ export default function App() {
         + 图片
       </Button>
       <Button
+      color='primary' variant="shadow"
         className="mx-[10px]"
         onClick={async () => {
           const spr = new VisibleSprite(
@@ -323,6 +331,7 @@ export default function App() {
       </Button>
       <span className="mx-[10px]">|</span>
       <Button
+      color="secondary"
         className="mx-[10px]"
         onClick={async () => {
           if (avCvs == null || tlState.current == null) return;
@@ -336,6 +345,7 @@ export default function App() {
         {playing ? '暂停' : '播放'}
       </Button>
       <Button
+      color="success"
         className="mx-[10px]"
         onClick={async () => {
           if (avCvs == null) return;

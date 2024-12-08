@@ -16,6 +16,7 @@
     "@types/react-dom": "^18.3.1",
     "@webav/av-canvas": "^1.0.5",
     "@webav/av-cliper": "^1.0.5",
+    "@webav/av-recorder": "^1.0.5",
     "@xzdarcy/react-timeline-editor": "^0.1.9",
     "antd": "^5.22.2",
     "babel-jest": "^27.4.2",

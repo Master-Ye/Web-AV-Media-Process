@@ -7,7 +7,7 @@ import Upload from '../components/upload.tsx';
 
 
 const resList = assetsPrefix(['video/bunny.mp4']);
-let video: ReadableStream = (await fetch(resList[0])).body!
+
 
 // async function startWork(start?, end?, step?) {
 //     const clip = new MP4Clip(video);
