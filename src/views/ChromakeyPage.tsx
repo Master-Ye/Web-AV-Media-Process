@@ -8,7 +8,7 @@ const DecodePage = () => {
     const decodingSubMenu = [
       {
         path: 'pic',
-        name: '图片抠图'
+        name: '绿幕抠图'
       },
     //   {
     //     path: 'audio-pro',

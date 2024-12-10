@@ -10,14 +10,14 @@ const Layout = () => {
     return <>
         <Header />
         <div className="justify-center flex">
-        <Card className="w-[1800px] justify-center">
-            <CardHeader className="flex gap-3">
+        <Card className="w-[1450px] justify-center mt-8">
+            {/* <CardHeader className="flex gap-3">
                 <div className="flex flex-col">
                     <p className="text-md">NextUI</p>
                     <p className="text-small text-default-500">nextui.org</p>
                 </div>
             </CardHeader>
-            <Divider />
+            <Divider /> */}
             <CardBody>
                 <Outlet></Outlet>
             </CardBody>

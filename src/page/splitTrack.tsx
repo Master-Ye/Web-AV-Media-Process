@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Combinator, MP4Clip, OffscreenSprite } from '@webav/av-cliper';
 import { assetsPrefix, downloadFromStream } from '../utils/utils.ts';
-import { Button } from '@nextui-org/react';
+import { Button, CircularProgress } from '@nextui-org/react';
 import React from 'react';
 import Upload from '../components/upload.tsx';
+import { Alert } from '@nextui-org/alert';
 
 const videoSrc = assetsPrefix(['video/bunny_0.mp4']);
 
-let videoClip;
-let audioTrackClip;
+// let videoClip;
+// let audioTrackClip;
 
 
 let videoTimer = 0;
-function playVideo(ctx) {
+function playVideo(ctx, videoClip) {
   let startTime = performance.now();
-
+  if (!ctx || !videoClip) return
   stopAudio();
   stopVideo();
   videoTimer = setInterval(async () => {
@@ -39,7 +40,8 @@ function stopVideo() {
 
 const audioCtx = new AudioContext();
 let audioSource, audioTimer;
-async function playAudio() {
+async function playAudio(audioTrackClip) {
+  if (!audioTrackClip) return
   // 当前片段的开始播放的时间
   let startAt = 0;
   let startTime = performance.now();
@@ -79,6 +81,8 @@ export default function UI() {
   const [video, setVideo] = useState<ReadableStream | null>(null);
   const [videoClip, setVideoClip] = useState<MP4Clip | null>(null);
   const [audioTrackClip, setAudioTrackClip] = useState<MP4Clip | null>(null);
+  const [downLoading, setDownLoading] = useState<boolean>(false)
+  const [parse, setParse] = useState<boolean>(false)
   // useEffect(() => {
   //   (async () => {
   //     if (ctx == null) return;
@@ -94,6 +98,7 @@ export default function UI() {
     const [videoClip, audioTrackClip] = await clip.splitTrack();
     setVideoClip(videoClip)
     setAudioTrackClip(audioTrackClip)
+    setParse(false)
   }
   useEffect(() => {
     let video: ReadableStream;
@@ -113,65 +118,83 @@ export default function UI() {
   }, [video]);
 
   return (
-    <div>
-      <div className="flex items-center">
-        <Button onClick={start}>开始解析</Button>
-        <Button
-          onClick={() => {
-            playVideo(ctx);
-          }}
-        >
-          播放视频
-        </Button>{' '}
-        ｜
-        <Button
-          onClick={() => {
-            playAudio();
-          }}
-        >
-          播放音频
-        </Button>
-        <Upload maxCount={1} fileType={['video/mp4']} onFileChange={(file) => {
+      <>
+       <div className="flex items-center justify-center w-full">
+        <div className="flex flex-col w-full">
+          <div key={'success'} className="w-full flex items-center my-3">
+            <Alert color={'success'} title={`音视频轨道分离`} description='输入视频，在浏览器中将视频与音频分离，支持播放视频和音频以及导出资源'/>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-center">
+      <Upload
+        text='上传视频'
+        maxCount={1} fileType={['video/mp4']} onFileChange={(file) => {
           if (!file) {
             let video: ReadableStream;
             (async () => {
               const response = await fetch(videoSrc[0]);
               video = response.body!;
-              setVideo(video)  // 获取视频的 ReadableStream
-            })()
+              setVideo(video); // 获取视频的 ReadableStream
+            })();
           }
           else {
-            setVideo(file)
+            setVideo(file);
           }
-        }}></Upload>
-        <Button onClick={async () => {
-          console.log(videoClip,audioTrackClip)
-          if(!videoClip||!audioTrackClip) return
-          const spr1 = new OffscreenSprite(
-            videoClip
-          );
-          const spr2 = new OffscreenSprite(
-            audioTrackClip
-          );
-          const com1 = new Combinator({ width: videoClip.meta.width, height: videoClip.meta.height, });
-          const com2 = new Combinator();
-          await com1.addSprite(spr1);
-          await com2.addSprite(spr2);
+        } }></Upload>
+      {'--->'}
+      {parse && <CircularProgress aria-label="解析中..." color="success" />}
+      {!parse && <Button onClick={async () => {
+        setParse(true);
+        await start();
+        setParse(false);
+      } }>开始解析</Button>}
+      {'--->'}
+      <Button
+        onClick={() => {
+          playVideo(ctx, videoClip);
+        } }
+      >
+        播放视频(canvas)
+      </Button>{' '}
+      ｜
+      <Button
+        onClick={() => {
+          playAudio(audioTrackClip);
+        } }
+      >
+        播放音频(AudioContext)
+      </Button>
+      {'--->'}
+      {downLoading && <CircularProgress aria-label="导出中..." color="primary" />}
+      {!downLoading && <Button onClick={async () => {
+        console.log(videoClip, audioTrackClip);
+        if (!videoClip || !audioTrackClip) return;
+        setDownLoading(true);
+        const spr1 = new OffscreenSprite(
+          videoClip
+        );
+        const spr2 = new OffscreenSprite(
+          audioTrackClip
+        );
+        const com1 = new Combinator({ width: videoClip.meta.width, height: videoClip.meta.height, });
+        const com2 = new Combinator();
+        await com1.addSprite(spr1);
+        await com2.addSprite(spr2);
 
-          await downloadFromStream(com1.output(), 'video.mp4')
-          await downloadFromStream(com2.output(), 'audio.mp3')
-          com1.destroy()
-          com2.destroy()
-        }}>下载</Button>
-      </div>
-      <canvas
+        await downloadFromStream(com1.output(), 'video.mp4');
+        await downloadFromStream(com2.output(), 'audio.mp3');
+        com1.destroy();
+        com2.destroy();
+        setDownLoading(false);
+      } }>导出(需要一点时间)</Button>}
+    </div><canvas
         className="w-full"
         width={900}
         height={500}
         ref={(c) => {
           setCtx(c?.getContext('2d'));
-        }}
-      />
-    </div>
+        } } /></>
+
   );
 }

@@ -34,12 +34,12 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<IndexPage />} />
               <Route path="decode" element={<DecodePage />} >
-                <Route index element={<AllPro />} />
+                {/* <Route index element={<AllPro />} /> */}
 
                 {/* 嵌套子路由 */}
                 {/* {/* <Route path="format-analysis" element={<FormatAnalysis />} />
         <Route path="stream-parsing" element={<StreamParsing />} /> */}
-                <Route path="all-pro" element={<AllPro />} />
+                {/* <Route path="all-pro" element={<AllPro />} /> */}
                 <Route path="video-pro" element={<VideoPro />} />
                 <Route path="audio-pro" element={<AudioPro />} />
               </Route>
@@ -47,6 +47,7 @@ function App() {
                 <Route index element={<VideoCut />} />
                 <Route path="video-cut" element={<VideoCut />} />
                 <Route path="split-track" element={<SplitTrack />} />
+                <Route path="audio-syn" element={<SplitTrack />} />
                 <Route path="small-pic" element={<SmallPic />} />
               </Route>
               <Route path="record" element={<RecordPage />} >

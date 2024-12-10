@@ -3,7 +3,7 @@ import { AVRecorder } from '@webav/av-recorder';
 import React from 'react';
 import { Button, Divider } from '@nextui-org/react';
 import { createFileWriter } from '../utils/utils.ts';
-
+import { Alert } from "@nextui-org/alert";
 let recorder: AVRecorder | null = null;
 async function start(videoEl: HTMLVideoElement) {
   const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -15,11 +15,13 @@ async function start(videoEl: HTMLVideoElement) {
   videoEl.play().catch(console.error);
 
   recorder = new AVRecorder(recodeMS);
-
-  recorder
-    .start()
-    .pipeTo(await createFileWriter())
-    .catch(console.error);
+  try {
+    recorder
+      .start()
+      .pipeTo(await createFileWriter())
+      .catch(console.error);
+  }
+  catch { }
 }
 
 export default function UI() {
@@ -34,6 +36,14 @@ export default function UI() {
 
   return (
     <>
+      <div className="flex items-center justify-center w-full">
+        <div className="flex flex-col w-full">
+          <div key={'success'} className="w-full flex items-center my-3">
+            <Alert color={'success'} title={`摄像头`} description='录制摄像头，输出 MP4（AVC, AAC）实时视频流，视频流可以写入本地文件，或上传到服务器
+    下面示例演示将流写入本地文件，录制过程中流式写入数据，所以一开始就需要创建一个本地文件。'/>
+          </div>
+        </div>
+      </div>
       <Button
         color={btnState === 0 ? 'primary' : 'default'}
         onClick={() => {
@@ -53,8 +63,9 @@ export default function UI() {
       >
         {['Start', 'Pause', 'Resume'][btnState]}
       </Button>
-      <Divider orientation="vertical"></Divider>{' '}
+      {/* <Divider orientation="vertical"></Divider>{' '} */}
       <Button
+        className='ml-5'
         color='danger'
         onClick={() => {
           setBtnState(0);

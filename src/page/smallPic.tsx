@@ -42,7 +42,7 @@ export default function UI() {
     const [step, setStep] = React.useState("");
     const [clip, setClip] = useState<MP4Clip | null>(null);  // 保存clip实例
     const [video, setVideo] = useState<ReadableStream | null>(null);  // 保存video实例
-
+    const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
         // 如果视频源或clip为空，创建新的clip
         if (video) {
@@ -65,7 +65,7 @@ export default function UI() {
             console.error("Clip is not initialized");
             return { imgList: [], cost: "0" };
         }
-
+        setLoading(true)
         await clip.ready;
         const t = performance.now();
         let imgList;
@@ -75,7 +75,7 @@ export default function UI() {
         } else {
             imgList = await clip.thumbnails(500);
         }
-
+        setLoading(false)
         const cost = ((performance.now() - t) / 1000).toFixed(2);
         return { imgList, cost };
     }
@@ -120,68 +120,69 @@ export default function UI() {
 
     return (
         <>
-            <RadioGroup
-                label="请选择取帧方式"
-                value={selected}
-                onValueChange={setSelected}
-            >
-                <Radio value="0">自动取关键帧</Radio>
-                <Radio value="1">自定义</Radio>
-            </RadioGroup>
-            <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                <Input
-                    width='300px'
-                    type='number'
-                    label="StartTime"
-                    placeholder="Enter"
-                    value={startTime}
-                    onValueChange={setStartTime}
-                />
-                <Input
-                    type='number'
-                    label="EndTime"
-                    placeholder="Enter"
-                    value={endTime}
-                    onValueChange={setEndTime}
-                />
-                <Input
-                    type='number'
-                    label="Step"
-                    placeholder="Enter"
-                    value={step}
-                    onValueChange={setStep}
-                />
-            </div>
-            <Upload onFileChange={async (file) => {
-                if (!file) {
-                    let video
-                    (async () => {
-                        const response = await fetch(resList[0]);
-                        video = response.body!;
-                        setVideo(video)  // 获取视频的 ReadableStream
-                    })()
-                }
-                else setVideo(file)
-            }}
-                fileType={['video/mp4']}
-                maxCount={1}></Upload>
-            <Button onClick={start} color='primary'>开始/重新开始</Button>
-            <Chip isDisabled color="warning" variant="shadow">若未上传则使用默认视频演示</Chip>
             <div>
-                {imgList.length === 0
-                    ? 'loading...'
-                    : `耗时：${cost}s，关键帧数：${imgList.length}`}
+                <RadioGroup
+                    label="请选择取帧方式"
+                    value={selected}
+                    onValueChange={setSelected}
+                >
+                    <Radio value="0">自动取关键帧</Radio>
+                    <Radio value="1">自定义</Radio>
+                </RadioGroup>
+                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                    <Input
+                        width='300px'
+                        type='number'
+                        label="开始时间"
+                        placeholder="输入"
+                        value={startTime}
+                        onValueChange={setStartTime}
+                    />
+                    <Input
+                        type='number'
+                        label="结束时间"
+                        placeholder="输入"
+                        value={endTime}
+                        onValueChange={setEndTime}
+                    />
+                    <Input
+                        type='number'
+                        label="步长时间"
+                        placeholder="输入"
+                        value={step}
+                        onValueChange={setStep}
+                    />
+                </div>
+                <Upload
+                    text='上传视频'
+                    onFileChange={async (file) => {
+                        if (!file) {
+                            let video
+                            (async () => {
+                                const response = await fetch(resList[0]);
+                                video = response.body!;
+                                setVideo(video)  // 获取视频的 ReadableStream
+                            })()
+                        }
+                        else setVideo(file)
+                    }}
+                    fileType={['video/mp4']}
+                    maxCount={1}></Upload>
+                <Button onClick={start} color='primary'>开始/重新开始</Button>
+                <Chip isDisabled color="warning" variant="shadow">若未上传则使用默认视频演示</Chip>
+                <div>
+                    {loading ? 'loading' : (imgList.length ? `耗时：${cost}s，关键帧数：${imgList.length}` : '')}
+                </div>
+                {/* <br /> */}
+                <div className="flex flex-wrap">
+                    {imgList.map((it) => (
+                        <div key={it.ts}>
+                            <div className="text-center">{(it.ts / 1e6).toFixed(2)}s</div>
+                            <Image src={it.img} isBlurred isZoomed className='ml-12'></Image>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <br />
-            <div className="flex flex-wrap">
-                {imgList.map((it) => (
-                    <div key={it.ts}>
-                        <div className="text-center">{(it.ts / 1e6).toFixed(2)}s</div>
-                        <Image src={it.img} isBlurred isZoomed></Image>
-                    </div>
-                ))}
-            </div>
-
         </>
     );
 }

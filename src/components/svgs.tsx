@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from "lucide-react";
 import React from "react";
 
 export const AddNoteIcon = (props) => {
@@ -113,5 +114,11 @@ export const AddNoteIcon = (props) => {
   export const ListboxWrapper = ({children}) => (
     <div className="w-full max-w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
       {children}
+    </div>
+  );
+
+  export const ItemCounter = () => (
+    <div className="flex items-center gap-1 text-default-400">
+      <ChevronRightIcon className="text-xl" />
     </div>
   );

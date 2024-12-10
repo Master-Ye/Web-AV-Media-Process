@@ -1,5 +1,5 @@
 import { cn, Listbox, ListboxItem } from "@nextui-org/react";
-import { AddNoteIcon, CopyDocumentIcon, DeleteDocumentIcon, EditDocumentIcon, ListboxWrapper } from "./svgs.tsx";
+import { AddNoteIcon, CopyDocumentIcon, DeleteDocumentIcon, EditDocumentIcon, ItemCounter, ListboxWrapper } from "./svgs.tsx";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -18,13 +18,15 @@ const SideBar = (props) => {
                 <ListboxItem key={item.path}
                     className="text-danger"
                     color="danger"
-                    startContent={<DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />}>
+                    startContent={item.startContent}
+                    endContent={<ItemCounter />}>
+
                     <Link
                         key={item.path}
                         to={item.path}
                         className={`
                   py-2 px-3 text-[#34495e]
-                  hover:bg-white rounded
+                  hover:bg-gray rounded
                   block
                 `}
                     >

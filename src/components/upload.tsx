@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { UploadOutlined } from '@ant-design/icons';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import type { UploadFile, UploadProps } from 'antd';
 import { Button, message, Upload } from 'antd';
-
+const { Dragger } = Upload;
 // const props: UploadProps = {
 //   name: 'file',
 //   action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
@@ -23,6 +23,7 @@ import { Button, message, Upload } from 'antd';
 interface props {
   onFileChange: (file:ReadableStream|null) => void,
   maxCount: number,
+  text:string,
   fileType: Array<string>
 }
 
@@ -50,9 +51,15 @@ const App = (props: props) => {
     setFileList([file])
   }
   return (
-    <Upload maxCount={props.maxCount} beforeUpload={() => false} onChange={onChange} fileList={fileList}>
-      <Button icon={<UploadOutlined />}>Click to Upload</Button>
-    </Upload>
+    // <Upload maxCount={props.maxCount} beforeUpload={() => false} onChange={onChange} fileList={fileList}>
+    //   <Button icon={<UploadOutlined />}>{props.text}</Button>
+    // </Upload>
+     <Dragger maxCount={props.maxCount} beforeUpload={()=>false} fileList={fileList} onChange={onChange}>
+       <p className="ant-upload-drag-icon">
+      <InboxOutlined />
+    </p>
+    <p className="ant-upload-text">{props.text}</p>
+     </Dragger>
   );
 }
 

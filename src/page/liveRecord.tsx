@@ -51,6 +51,7 @@ export default function UI() {
     const fileHandle = await window.showSaveFilePicker({
       suggestedName: `AVP-${Date.now()}.mp4`,
     });
+    if(!fileHandle) return
     const writer = await fileHandle.createWritable();
     recorder = new AVRecorder(avCvs.captureStream(), {
       bitrate: 5e6,
@@ -59,7 +60,7 @@ export default function UI() {
   }
   useEffect(() => {
     return () => {
-        console.log(11)
+      console.log(11)
       avCvs?.destroy();
     };
   }, []);
@@ -80,11 +81,11 @@ export default function UI() {
           await avCvs.addSprite(spr);
         }}
       >
-        Camera & Micphone
+        摄像头和麦克风
       </Button>
       &nbsp;
       <Button
-      color='primary'
+        color='primary'
         onClick={async () => {
           if (avCvs == null) return;
           const spr = new VisibleSprite(
@@ -98,16 +99,17 @@ export default function UI() {
           await avCvs.addSprite(spr);
         }}
       >
-        Share screen
+        共享屏幕
       </Button>
       &nbsp;
       <Button
-      color='primary'
+        color='primary'
         onClick={async () => {
           if (avCvs == null) return;
           const localFile = await loadFile({
             'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
           });
+          if(!localFile) return
           const opts = /\.gif$/.test(localFile.name)
             ? ({ type: 'image/gif', stream: localFile.stream() } as const)
             : localFile.stream();
@@ -115,16 +117,16 @@ export default function UI() {
           await avCvs.addSprite(spr);
         }}
       >
-        Image
+        图像
       </Button>
       &nbsp;
       <Button
         onClick={async () => {
           if (avCvs == null) return;
           const videoEl = createEl('video') as HTMLVideoElement;
-          videoEl.src = URL.createObjectURL(
-            await loadFile({ 'video/*': ['.webm', '.mp4', '.mov', '.mkv'] }),
-          );
+          let localFile = await loadFile({ 'video/*': ['.webm', '.mp4', '.mov', '.mkv'] })
+          if(!localFile) return
+          videoEl.src = URL.createObjectURL(localFile);
           videoEl.loop = true;
           videoEl.autoplay = true;
           await videoEl.play();
@@ -136,16 +138,16 @@ export default function UI() {
           await avCvs.addSprite(spr);
         }}
       >
-        Video
+        视频
       </Button>
       &nbsp;
       <Button
         onClick={async () => {
           if (avCvs == null) return;
           const audioEl = createEl('audio') as HTMLAudioElement;
-          audioEl.src = URL.createObjectURL(
-            await loadFile({ 'video/*': ['.mp3', '.wav', '.ogg', '.m4a'] }),
-          );
+          let localFile = await loadFile({ 'video/*': ['.mp3', '.wav', '.ogg', '.m4a'] })
+          if(!localFile) return
+          audioEl.src = URL.createObjectURL(localFile);
           audioEl.loop = true;
           audioEl.autoplay = true;
           await audioEl.play();
@@ -157,7 +159,7 @@ export default function UI() {
           await avCvs.addSprite(spr);
         }}
       >
-        Audio
+        音频
       </Button>
       &nbsp;
       <Button
@@ -174,7 +176,7 @@ export default function UI() {
           await avCvs.addSprite(spr);
         }}
       >
-        Text
+        文字
       </Button>
       <hr />
       <Button
@@ -183,7 +185,7 @@ export default function UI() {
           setStateText('录制中...');
         }}
       >
-        Start Recod
+        开始录制
       </Button>
       &nbsp;
       <Button
@@ -192,11 +194,11 @@ export default function UI() {
           setStateText('视频已保存');
         }}
       >
-        Stop Recod
+        停止录制
       </Button>
       <span style={{ marginLeft: 16, color: '#666' }}>{stateText}</span>
       <div
-        ref={(el)=>setCvsWrapEl(el)}
+        ref={(el) => setCvsWrapEl(el)}
         style={{ width: 900, height: 500, position: 'relative' }}
       ></div>
     </>
@@ -204,8 +206,13 @@ export default function UI() {
 }
 
 async function loadFile(accept: Record<string, string[]>) {
-  const [fileHandle] = await window.showOpenFilePicker({
-    types: [{ accept }],
-  });
-  return (await fileHandle.getFile()) as File;
+  try {
+    const [fileHandle] = await window.showOpenFilePicker({
+      types: [{ accept }],
+    });
+    return (await fileHandle.getFile()) as File;
+  }
+  catch {
+    return null
+  }
 }

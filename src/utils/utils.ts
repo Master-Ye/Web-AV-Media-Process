@@ -37,8 +37,9 @@ export async function downloadFromStream(stream: ReadableStream, filename: strin
 export async function createFileWriter(
   extName = 'mp4',
 ): Promise<FileSystemWritableFileStream> {
-  const fileHandle = await window.showSaveFilePicker({
-    suggestedName: `WebAV-export-${Date.now()}.${extName}`,
-  });
-  return fileHandle.createWritable();
-}
+    const fileHandle = await window.showSaveFilePicker({
+      suggestedName: `WebAV-export-${Date.now()}.${extName}`,
+    });
+    return fileHandle.createWritable();
+  }
+

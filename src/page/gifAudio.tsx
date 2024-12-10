@@ -49,7 +49,9 @@ import { assetsPrefix } from '../utils/utils';
               setGif(file)
             }
           }}></Upload>
-          <Upload maxCount={1} fileType={['video/mp4']} onFileChange={(file) => {
+          <Upload
+          text='上传自己的视频'
+          maxCount={1} fileType={['video/mp4']} onFileChange={(file) => {
             if (!file) {
               let video: ReadableStream;
               (async () => {

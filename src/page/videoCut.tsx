@@ -15,7 +15,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { assetsPrefix, createFileWriter } from '../utils/utils.ts';
-import { Button } from '@nextui-org/react';
+import { Button, Radio, RadioGroup } from '@nextui-org/react';
 
 type TLActionWithName = TimelineAction & { name: string };
 
@@ -173,8 +173,8 @@ export default function App() {
     avCvs?.destroy();
     const cvs = new AVCanvas(cvsWrapEl, {
       bgColor: '#000',
-      width: 1024,
-      height: 600,
+      width: 1280,
+      height: 720,
     });
     setAVCvs(cvs);
     cvs.on('timeupdate', (time) => {
@@ -231,7 +231,14 @@ export default function App() {
   return (
     <div className="canvas-wrap">
       <div ref={(el) => setCvsWrapEl(el)}></div>
-      <input
+      <RadioGroup label="选择素材上传方式" value={clipSource} onValueChange={(val)=>{
+        setClipSource(val)
+      }}
+      orientation='horizontal'>
+        <Radio value="remote">示例素材</Radio>
+        <Radio value="local">本地素材</Radio>
+      </RadioGroup>
+      {/* <input
         type="radio"
         id="clip-source-remote"
         name="clip-source"
@@ -250,16 +257,17 @@ export default function App() {
           setClipSource('local');
         }}
       />
-      <label htmlFor="clip-source-local"> 本地素材</label>
-      <span className="mx-[10px]">|</span>
+      <label htmlFor="clip-source-local"> 本地素材</label> */}
+      {/* <span className="mx-[10px]">|</span> */}
       <Button
       color='primary' variant="shadow"
         className="mx-[10px]"
         onClick={async () => {
           const stream =
             clipSource === 'local'
-              ? (await loadFile({ 'video/*': ['.mp4', '.mov'] })).stream()
+              ? (await loadFile({ 'video/*': ['.mp4', '.mov'] }))?.stream()
               : (await fetch(clipsSrc[0])).body!;
+            if(!stream) return
           const spr = new VisibleSprite(
             new MP4Clip(stream, {
               __unsafe_hardwareAcceleration__,
@@ -277,8 +285,9 @@ export default function App() {
         onClick={async () => {
           const stream =
             clipSource === 'local'
-              ? (await loadFile({ 'audio/*': ['.m4a', '.mp3'] })).stream()
+              ? (await loadFile({ 'audio/*': ['.m4a', '.mp3'] }))?.stream()
               : (await fetch(clipsSrc[1])).body!;
+          if(!stream) return
           const spr = new VisibleSprite(new AudioClip(stream));
           await avCvs?.addSprite(spr);
           addSprite2Track('2-audio', spr, '音频');
@@ -295,6 +304,7 @@ export default function App() {
             const f = await loadFile({
               'image/*': ['.png', '.jpeg', '.jpg', '.gif'],
             });
+            if(!f) return
             const stream = f.stream();
             if (/\.gif$/.test(f.name)) {
               args = { type: 'image/gif', stream };
@@ -349,9 +359,11 @@ export default function App() {
         className="mx-[10px]"
         onClick={async () => {
           if (avCvs == null) return;
+          try{
           (await avCvs.createCombinator({ __unsafe_hardwareAcceleration__ }))
             .output()
-            .pipeTo(await createFileWriter());
+            .pipeTo(await createFileWriter());}
+            catch{}
         }}
       >
         导出视频
@@ -428,8 +440,14 @@ export default function App() {
 }
 
 async function loadFile(accept: Record<string, string[]>) {
-  const [fileHandle] = await window.showOpenFilePicker({
-    types: [{ accept }],
-  });
-  return (await fileHandle.getFile()) as File;
+  try{
+    const [fileHandle] = await window.showOpenFilePicker({
+      types: [{ accept }],
+    });
+    return (await fileHandle.getFile()) as File;
+  }
+  catch{
+    return null
+  }
+
 }

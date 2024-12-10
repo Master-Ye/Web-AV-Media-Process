@@ -18,6 +18,10 @@ const Synthesis = () => {
       path: 'small-pic',
       name: '缩略图'
     },
+    {
+      path: 'audio-syn',
+      name: '音频合成'
+    },
   ];
 
   return (

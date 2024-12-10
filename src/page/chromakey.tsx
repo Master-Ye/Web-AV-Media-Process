@@ -96,7 +96,7 @@ export default function UI() {
           );
         }
         catch { }
-      }}>上传图片移除背景</Button>
+      }}>上传图片移除绿幕</Button>
     </div>
   );
 }

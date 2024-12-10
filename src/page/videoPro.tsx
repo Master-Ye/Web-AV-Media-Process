@@ -10,9 +10,9 @@ const videos = assetsPrefix({
   'bunny.mp4': 'video/bunny.mp4',
   'bear.mp4': 'video/bear-vp9.mp4',
 });
-let video:ReadableStream
+let video: ReadableStream
 // console.log(video)
-let stop = () => {};
+let stop = () => { };
 
 async function start(
   speed: number,
@@ -20,7 +20,7 @@ async function start(
   ctx: CanvasRenderingContext2D,
 ) {
   // const resp1 = await fetch(video);
-  const resp = video?video:(await fetch(videos[videoType])).body
+  const resp = video ? video : (await fetch(videos[videoType])).body
   const clip = new MP4Clip(resp!);
   await clip.ready;
 
@@ -39,8 +39,8 @@ async function start(
     stop = () => (stopted = true);
 
     while (!stopted) {
-      const { audio,state, video } = await clip.tick(time);
-      console.log(video,audio)
+      const { audio, state, video } = await clip.tick(time);
+      console.log(video, audio)
       if (state === 'done') break;
       if (video != null && state === 'success') {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -112,8 +112,8 @@ function createUI(start: Function) {
     return (
       <div>
         <Button
-        size='sm'
-        color='primary'
+          size='sm'
+          color='primary'
           onClick={() => {
             start(speed, value as keyof typeof videos, ctx);
           }}
@@ -121,11 +121,13 @@ function createUI(start: Function) {
           Button
         </Button>
         <br />
-        <Upload onFileChange={(file)=>{
-            video = file
+        <Upload onFileChange={(file) => {
+          if(file)
+          video = file
         }}
-        fileType={['video/mp4']}
-        maxCount={1}></Upload>
+          text='上传自己视频'
+          fileType={['video/mp4']}
+          maxCount={1}></Upload>
         <Radio.Group
           onChange={(e) => {
             setValue(e.target.value);

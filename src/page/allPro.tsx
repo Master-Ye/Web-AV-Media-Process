@@ -7,14 +7,10 @@ import Upload from '../components/upload.tsx';
 
 
 const videoSrc = assetsPrefix(['video/bunny_0.mp4']);
-let video:ReadableStream|null
+let video: ReadableStream | null
 let clip;
 let mp4Dur;
-async function start() {
-  clip = new MP4Clip(video?video:(await fetch(videoSrc[0])).body!);
-  const { duration, width, height } = await clip.ready;
-  mp4Dur = Math.round(duration / 1e6);
-}
+
 
 let timer;
 const audioCtx = new AudioContext();
@@ -71,18 +67,31 @@ export default function UI() {
   const [duration, setDuration] = useState(0);
   const [ctx, setCtx] = useState<null | undefined | CanvasRenderingContext2D>();
   const [playing, setPlaying] = useState(false);
+  const [video, setVideo] = useState<null | ReadableStream>(null);
+  const [clip, setClip] = useState<null | MP4Clip>(null);
+  const [mp4Dur, setMp4Dur] = useState<number>(0);
+  async function start() {
+    if (video) {
+      setClip(new MP4Clip(video))
+      const { duration, width, height } = await clip.ready;
+      mp4Dur = Math.round(duration / 1e6);
+    }
+  }
   useEffect(() => {
     return () => stop();
   }, [stop]);
-
+  useEffect(() => {
+    setVideo((await fetch(videoSrc[0])).body!)
+  }, []);
   useEffect(() => {
     (async () => {
+
       if (ctx == null) return;
       await start();
       setDuration(mp4Dur);
       preview(0.5);
     })();
-  }, [ctx,video]);
+  }, [ctx, video]);
 
   async function preview(val) {
     setPlaying(false);
@@ -140,11 +149,12 @@ export default function UI() {
           setCtx(c?.getContext('2d'));
         }}
       />
-         <Upload onFileChange={(file)=>{
-            video = file
-        }}
+      <Upload onFileChange={(file) => {
+        setVideo(file)
+      }}
         fileType={['video/mp4']}
-        maxCount={1}></Upload>
+        maxCount={1}
+        text='上传自己的视频'></Upload>
     </div>
   );
 }

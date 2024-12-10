@@ -11,12 +11,12 @@ const menuItems = [
 ];
 const Header = () => {
   return  <>
-  <Navbar className="bg-blue"
+  <Navbar className="bg-[#2c3e50] text-white"
       isBordered isBlurred={false} shouldHideOnScroll>
-      <NavbarContent className="sm:flex gap-1" justify="start">
-        <p className="font-bold text-inherit">MediaCore</p>
+      <NavbarContent className=" gap-8 " justify="start">
+        <span className="font-bold text-inherit text-2xl">MediaProcess</span>
       </NavbarContent>
-      <NavbarContent className="sm:flex gap-1" justify="start">
+      <NavbarContent className="sm:flex gap-4" justify="center">
         {menuItems.map((item) => (
           <NavbarItem>
             <Link
@@ -32,8 +32,8 @@ const Header = () => {
 
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="lg:flex">
-          <a href="#">作者博客</a>
+        <NavbarItem className="">
+          <a href="https://blog.master-ye.top/" target="_blank">作者博客</a>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
