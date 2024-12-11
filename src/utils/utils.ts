@@ -43,3 +43,17 @@ export async function createFileWriter(
     return fileHandle.createWritable();
   }
 
+
+export  function getAudioDuration(file:File) :Promise<number>{
+  let url = URL.createObjectURL(file);
+    return new Promise((resolve, reject) => {
+      const audio = new Audio();
+      audio.src = url;
+      audio.onloadedmetadata = () => {
+        resolve(audio.duration);
+      };
+      audio.onerror = (error) => {
+        resolve(0)
+      };
+    });
+  }

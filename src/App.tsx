@@ -23,6 +23,7 @@ import LiveRecord from './page/liveRecord.tsx';
 import Photo from './page/photo.tsx';
 import Chromakey from './page/chromakey.tsx';
 import ChromakeyPage from './views/ChromakeyPage.tsx';
+import AudioSyn from './page/audioSyn.tsx';
 
 
 function App() {
@@ -47,7 +48,7 @@ function App() {
                 <Route index element={<VideoCut />} />
                 <Route path="video-cut" element={<VideoCut />} />
                 <Route path="split-track" element={<SplitTrack />} />
-                <Route path="audio-syn" element={<SplitTrack />} />
+                <Route path="audio-syn" element={<AudioSyn />} />
                 <Route path="small-pic" element={<SmallPic />} />
               </Route>
               <Route path="record" element={<RecordPage />} >

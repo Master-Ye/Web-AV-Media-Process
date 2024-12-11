@@ -21,7 +21,7 @@ const { Dragger } = Upload;
 //   },
 // };
 interface props {
-  onFileChange: (file:ReadableStream|null) => void,
+  onFileChange: (file:ReadableStream|null,File?:File|null) => void,
   maxCount: number,
   text:string,
   fileType: Array<string>
@@ -38,7 +38,7 @@ const App = (props: props) => {
 
     if(!e.fileList.length)
     {
-      props.onFileChange(null)
+      props.onFileChange(null,null)
       setFileList([])
       return
     }
@@ -47,7 +47,7 @@ const App = (props: props) => {
       message.error('not')
       return
     }
-    props.onFileChange(file.stream())
+    props.onFileChange(file.stream(),file)
     setFileList([file])
   }
   return (

@@ -10,9 +10,9 @@ export function CombinatorPlay({
   stream,
   mediaType = 'video',
 }: {
-  list: string[];
   onStart: () => void;
   com?: Combinator | null;
+  list?: string[];
   stream?: ReadableStream | null;
   mediaType?: 'video' | 'audio';
 }) {
@@ -32,6 +32,7 @@ export function CombinatorPlay({
   return (
     <div>
       <Button
+      color='secondary'
         onClick={() => {
           setState('loading...');
           onStart();
@@ -40,7 +41,7 @@ export function CombinatorPlay({
       >
         启动！
       </Button>
-      {list.length > 0 && (
+      {list&& list.length > 0 && (
         <div className="resouse-list">
           素材：
           {list.map((it) => (
@@ -60,13 +61,13 @@ export function CombinatorPlay({
         {videoSrc.length > 0 && (
           <a
             href={videoSrc}
-            download={`WebAV-${Date.now()}.${
+            download={`avprocess-${Date.now()}.${
               mediaType === 'video' ? 'mp4' : 'm4a'
             }`}
             target="_self"
             style={{ marginLeft: '16px', textDecoration: 'none' }}
           >
-            导出视频
+           {'导出' + (mediaType === 'video'?'视频':'音频')}
           </a>
         )}
       </div>

@@ -30,9 +30,9 @@ const Layout = () => {
 
         </Card>
         </div>
-        {/* <div className="fixed bottom-0 left-0 right-0 bg-[#2c3e50] text-[#bdc3c7] p-3 text-center">
-            © 2024 MediaCore - 专业音视频底层处理工具
-        </div> */}
+        <div className="fixed bottom-0 left-0 right-0 bg-[#2c3e50] text-[#bdc3c7] p-3 text-center">
+            © 2024 MediaProcess - Web专业音视频底层处理工具
+        </div>
     </>
 }
 
