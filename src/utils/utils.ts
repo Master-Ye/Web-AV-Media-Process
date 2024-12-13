@@ -3,7 +3,7 @@ export function assetsPrefix<T extends string[] | Record<string, string>>(
   assetsURL: T,
 ): T {
   const base = BASE_URL
-  const prefix = process.env.NODE_ENV === 'development' ? '/' : '/WebAV/';
+  const prefix = '/'
   console.log(prefix)
   if (Array.isArray(assetsURL)) {
     return assetsURL.map((url) => `${base}${prefix}${url}`) as T;

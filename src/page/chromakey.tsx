@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { createChromakey } from '@webav/av-cliper';
 import React from 'react';
 import { assetsPrefix } from '../utils/utils.ts';
 import { Button, Slider } from '@nextui-org/react';
 import { Alert } from '@nextui-org/alert';
+import { createChromakey } from '../utils/chromaKey.ts';
 
 const imgSrc = assetsPrefix(['img/green-dog.jpeg']);
 
