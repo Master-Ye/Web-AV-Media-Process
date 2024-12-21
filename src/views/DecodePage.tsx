@@ -24,7 +24,7 @@ const DecodePage = () => {
       <div className="flex">
         {/* 左侧功能导航 */}
         <div className="w-64 bg-[#ecf0f1] p-4 pt-8">
-          <h2 className="text-xl font-bold text-[#2c3e50] mb-4">音视频解码</h2>
+          <h2 className="text-xl font-bold text-[#2c3e50] mb-4">音视频解码预览</h2>
           <SideBar menus={decodingSubMenu}></SideBar>
         </div>
 
