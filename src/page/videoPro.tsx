@@ -123,15 +123,7 @@ function createUI() {
     }
     return (
       <div>
-        <Button
-          size='sm'
-          color='primary'
-          onClick={() => {
-            start(speed, ctx);
-          }}
-        >
-          Button
-        </Button>
+
         <br />
         <Upload onFileChange={(file) => {
           if (file)
@@ -150,7 +142,15 @@ function createUI() {
           <Radio value="bear.mp4">bear.mp4</Radio>
         </Radio.Group>
         <Divider type="vertical"></Divider>{' '}
-        <Button></Button>
+        <Button
+          size='sm'
+          color='primary'
+          onClick={() => {
+            start(speed, ctx);
+          }}
+        >
+          播放
+        </Button>
         <Radio.Group
 
           onChange={(e) => {

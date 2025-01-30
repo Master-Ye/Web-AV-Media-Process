@@ -1,0 +1,60 @@
+.home-page {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+
+  .header p {
+    font-size: 1.2em;
+    color: #666;
+  }
+
+  .features, .advantages, .use-cases {
+    margin-bottom: 40px;
+  }
+
+  .features h2, .advantages h2, .use-cases h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .feature-list {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .feature {
+    width: 48%;
+  }
+
+  .feature h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+
+  .feature ul, .advantages ul, .use-cases ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  .feature li, .advantages li, .use-cases li {
+    margin-bottom: 10px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #666;
+  }

@@ -71,18 +71,18 @@ export default function UI() {
   const [clip, setClip] = useState<null | MP4Clip>(null);
   const [mp4Dur, setMp4Dur] = useState<number>(0);
   async function start() {
-    if (video) {
+    if (video&&clip) {
       setClip(new MP4Clip(video))
       const { duration, width, height } = await clip.ready;
-      mp4Dur = Math.round(duration / 1e6);
+      setMp4Dur(Math.round(duration / 1e6))
     }
   }
   useEffect(() => {
     return () => stop();
   }, [stop]);
-  useEffect(() => {
-    setVideo((await fetch(videoSrc[0])).body!)
-  }, []);
+  // useEffect(() => {
+  //   setVideo((await fetch(videoSrc[0])).body!)
+  // }, []);
   useEffect(() => {
     (async () => {
 

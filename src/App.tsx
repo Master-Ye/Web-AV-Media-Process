@@ -35,7 +35,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<IndexPage />} />
               <Route path="decode" element={<DecodePage />} >
-                {/* <Route index element={<AllPro />} /> */}
+                <Route index element={<VideoPro />} />
 
                 {/* 嵌套子路由 */}
                 {/* {/* <Route path="format-analysis" element={<FormatAnalysis />} />

@@ -6,10 +6,10 @@ const DecodePage = () => {
     const location = useLocation();
 
     const decodingSubMenu = [
-      {
-        path: 'all-pro',
-        name: '全解码'
-      },
+      // {
+      //   path: 'all-pro',
+      //   name: '全解码'
+      // },
       {
         path: 'audio-pro',
         name: '音频解析'

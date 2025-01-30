@@ -22,11 +22,11 @@ const Layout = () => {
                 <Outlet></Outlet>
             </CardBody>
             <Divider />
-            <CardFooter>
+            {/* <CardFooter>
                 <Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
                     Visit source code on GitHub.
                 </Link>
-            </CardFooter>
+            </CardFooter> */}
 
         </Card>
         </div>

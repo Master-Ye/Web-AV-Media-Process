@@ -2,7 +2,7 @@ import { AudioClip } from '@webav/av-cliper';
 import {  Radio } from 'antd';
 import { useState, useEffect } from 'react';
 import { assetsPrefix } from '../utils/utils.ts';
-import {CheckboxGroup, Checkbox, Button} from "@nextui-org/react";
+import { Button} from "@nextui-org/react";
 import React from 'react';
 
 const audios = assetsPrefix({
@@ -47,7 +47,13 @@ async function start(audioType: keyof typeof audios) {
   }
   play();
 
-  stopAudio = () => ctx.close();
+  stopAudio = () => {
+    if (ctx && ctx.state !== 'closed') {
+      ctx.close().then(() => {
+          console.log('AudioContext closed on unmount.');
+      });
+  }
+    ctx.close()}
 }
 
 export default createUI(start);
