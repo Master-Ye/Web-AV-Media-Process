@@ -1,7 +1,7 @@
 import React from "react"
 import Header from "./page/header.tsx"
 import { Outlet } from "react-router-dom"
-import { Card, CardBody, CardFooter, CardHeader, Divider, Link } from "@nextui-org/react"
+import { Card, CardBody,  Divider,  } from "@nextui-org/react"
 
 {/* <Header/> */ }
 const Layout = () => {

@@ -80,7 +80,7 @@ function createUI(start: Function) {
         ))}
       </div>
     </div>
-        <br />
+        {/* <br />
         <Radio.Group
           onChange={(e) => {
             setValue(e.target.value);
@@ -97,7 +97,7 @@ function createUI(start: Function) {
           }}
         >
           启动！
-        </Button>
+        </Button> */}
       </div>
     );
   };
