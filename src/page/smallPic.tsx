@@ -6,7 +6,7 @@ import React from 'react';
 import Upload from '../components/upload.tsx';
 
 
-const resList = assetsPrefix(['video/bunny.mp4']);
+const resList = assetsPrefix(['bunny.mp4']);
 
 
 // async function startWork(start?, end?, step?) {
@@ -126,7 +126,7 @@ export default function UI() {
                     value={selected}
                     onValueChange={setSelected}
                 >
-                    <Radio value="0">自动取关键帧</Radio>
+                    <Radio value="0">取关键帧</Radio>
                     <Radio value="1">自定义</Radio>
                 </RadioGroup>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">

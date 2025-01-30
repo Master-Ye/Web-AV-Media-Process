@@ -1,4 +1,4 @@
-const BASE_URL = 'https://bilibili.github.io/WebAV';
+const BASE_URL = 'https://raw.githubusercontent.com/Master-Ye/masterder.github.io/refs/heads/master/assets/';
 export function assetsPrefix<T extends string[] | Record<string, string>>(
   assetsURL: T,
 ): T {
@@ -33,7 +33,7 @@ export async function downloadFromStream(stream: ReadableStream, filename: strin
   // 清理 URL 对象
   URL.revokeObjectURL(url);
 }
-
+//用到的地方都catch了，所以这里不再catch
 export async function createFileWriter(
   extName = 'mp4',
 ): Promise<FileSystemWritableFileStream> {

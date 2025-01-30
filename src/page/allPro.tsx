@@ -6,7 +6,7 @@ import { Button, Slider } from '@nextui-org/react';
 import Upload from '../components/upload.tsx';
 
 
-const videoSrc = assetsPrefix(['video/bunny_0.mp4']);
+const videoSrc = assetsPrefix(['bunny.mp4']);
 let video: ReadableStream | null
 let clip;
 let mp4Dur;

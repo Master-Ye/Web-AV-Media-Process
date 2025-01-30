@@ -48,9 +48,16 @@ export default function UI() {
   }, [cvsWrapEl]);
   async function start() {
     if (avCvs == null) return;
-    const fileHandle = await window.showSaveFilePicker({
-      suggestedName: `AVP-${Date.now()}.mp4`,
-    });
+    let fileHandle: FileSystemFileHandle;
+    try{
+       fileHandle = await window.showSaveFilePicker({
+        suggestedName: `AVP-${Date.now()}.mp4`,
+      });
+    }
+    catch{
+      return
+    }
+
     if(!fileHandle) return
     const writer = await fileHandle.createWritable();
     recorder = new AVRecorder(avCvs.captureStream(), {

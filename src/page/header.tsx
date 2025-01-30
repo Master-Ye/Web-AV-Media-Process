@@ -1,5 +1,5 @@
 import React from "react"
-import { FileText, Film, Mic, Scissors, ChevronDown } from 'lucide-react';
+import { FileText, Film, Mic, Scissors } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 // 菜单项

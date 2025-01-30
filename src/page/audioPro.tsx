@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { assetsPrefix } from '../utils/utils.ts';
 import { Button} from "@nextui-org/react";
 import React from 'react';
+import { Alert } from '@nextui-org/alert';
 
 const audios = assetsPrefix({
   '44.1kHz-2chan.m4a': 'audio/44.1kHz-2chan.m4a',
@@ -70,13 +71,15 @@ function createUI(start: Function) {
 
     return (
       <div>
-        <Button
-          onClick={() => {
-            start(value as keyof typeof audios);
-          }}
-        >
-          启动！
-        </Button>
+        <div className="flex items-center justify-center w-full">
+      <div className="flex flex-col w-full">
+        {["secondary"].map((color) => (
+          <div key={color} className="w-full flex items-center my-3">
+            <Alert color={color} title={`音频上传还未开发`} />
+          </div>
+        ))}
+      </div>
+    </div>
         <br />
         <Radio.Group
           onChange={(e) => {
@@ -88,6 +91,13 @@ function createUI(start: Function) {
           <Radio value="44.1kHz-2chan.mp3">44.1kHz-2chan.mp3</Radio>
           <Radio value="16kHz-1chan.mp3">16kHz-1chan.mp3</Radio>
         </Radio.Group>
+        <Button
+          onClick={() => {
+            start(value as keyof typeof audios);
+          }}
+        >
+          启动！
+        </Button>
       </div>
     );
   };

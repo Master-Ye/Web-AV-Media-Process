@@ -6,7 +6,7 @@ import React from 'react';
 import Upload from '../components/upload.tsx';
 import { Alert } from '@nextui-org/alert';
 
-const videoSrc = assetsPrefix(['video/bunny_0.mp4']);
+const videoSrc = assetsPrefix(['bunny.mp4']);
 
 // let videoClip;
 // let audioTrackClip;

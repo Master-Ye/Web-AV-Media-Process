@@ -7,8 +7,8 @@ import { MP4Clip } from '@webav/av-cliper';
 import { Divider, Radio } from 'antd';
 import Upload from '../components/upload.tsx';
 const videos = assetsPrefix({
-  'bunny.mp4': 'video/bunny.mp4',
-  'bear.mp4': 'video/bear-vp9.mp4',
+  'bunny.mp4': 'bunny.mp4',
+  'bear.mp4': 'bear-vp9.mp4',
 });
 let video: ReadableStream
 // console.log(video)
@@ -30,22 +30,41 @@ function createUI() {
     const [video, setVideo] = useState<ReadableStream | null>(null)
     const [clip, setClip] = useState<MP4Clip | null>(null)
     useEffect(() => {
-      let resp
-      (async () => {
-        resp = (await fetch(videos[value])).body
-      })()
-      if (resp) { setVideo(resp.stream()) }
+      const fetchVideo = async () => {
+        try {
+          const response = await fetch(videos[value]);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch video: ${response.statusText}`);
+          }
+          const respBody = response.body;
+          if (respBody) {
+            setVideo(respBody); // 更新video状态
+            console.log('Video stream set:', respBody); // 打印更新后的video
+          }
+        } catch (error) {
+          console.error('Error fetching video:', error);
+        }
+      };
+
+      fetchVideo(); // 调用异步函数
     }, [value])
     useEffect(() => {
+      // console.log(video)
       if (video) {
         setClip(new MP4Clip(video))
       }
     }, [video])
+    useEffect(()=>{
+      return ()=>{
+        clip?.destroy()
+      }
+    },[])
     async function start(
       speed: number,
       ctx: CanvasRenderingContext2D|null,
     ) {
       // const resp1 = await fetch(video);
+      console.log(clip, ctx)
       if (!clip || !ctx) return
       await clip.ready
       stop();
@@ -83,7 +102,7 @@ function createUI() {
           }
           time += 33000;
         }
-        clip?.destroy();
+        // clip?.destroy();
       }
 
       function timesSpeedDecode(times: number) {
@@ -117,7 +136,7 @@ function createUI() {
 
         stop = () => {
           clearInterval(timer);
-          clip.destroy();
+          // clip.destroy();
         };
       }
     }
@@ -142,17 +161,7 @@ function createUI() {
           <Radio value="bear.mp4">bear.mp4</Radio>
         </Radio.Group>
         <Divider type="vertical"></Divider>{' '}
-        <Button
-          size='sm'
-          color='primary'
-          onClick={() => {
-            start(speed, ctx);
-          }}
-        >
-          播放
-        </Button>
         <Radio.Group
-
           onChange={(e) => {
             setSpeed(e.target.value);
           }}
@@ -162,6 +171,15 @@ function createUI() {
           <Radio value={3}>3 倍速</Radio>
           <Radio value={1}>1 倍速</Radio>
         </Radio.Group>
+        <Button
+          size='sm'
+          color='primary'
+          onClick={() => {
+            start(speed, ctx);
+          }}
+        >
+          播放
+        </Button>
         <br></br>
         <canvas
           width={600}

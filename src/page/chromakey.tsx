@@ -5,7 +5,7 @@ import { Button, Slider } from '@nextui-org/react';
 import { Alert } from '@nextui-org/alert';
 import { createChromakey } from '../utils/chromaKey.ts';
 
-const imgSrc = assetsPrefix(['img/green-dog.jpeg']);
+const imgSrc = assetsPrefix(['green-dog.jpeg']);
 
 
 
