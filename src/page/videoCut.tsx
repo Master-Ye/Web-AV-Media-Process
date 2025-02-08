@@ -148,9 +148,9 @@ const TimelineEditor = ({
 const actionSpriteMap = new WeakMap<TimelineAction, VisibleSprite>();
 
 const clipsSrc = assetsPrefix([
-  'video/bunny_0.mp4',
-  'audio/16kHz-1chan.mp3',
-  'img/bunny.png',
+  'bunny.mp4',
+  '16kHz-1chan.mp3',
+  'bunny.png',
 ]);
 
 export default function App() {

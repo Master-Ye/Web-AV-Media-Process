@@ -6,10 +6,10 @@ import { CombinatorPlay } from '../components/combinator-player.tsx';
 import Upload from '../components/upload.tsx';
 import { Radio, RadioGroup } from '@nextui-org/react';
 
-const resList = assetsPrefix([
-    'audio/44.1kHz-2chan.m4a',
-    'audio/16kHz-1chan.mp3',
-]);
+// const resList = assetsPrefix([
+//     '44.1kHz-2chan.m4a',
+//     '16kHz-1chan.mp3',
+// ]);
 
 
 export default function UI() {
