@@ -14,7 +14,7 @@ import {
 } from '@xzdarcy/react-timeline-editor';
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
-import { assetsPrefix, createFileWriter } from '../utils/utils.ts';
+import { assetsPrefix, createFileWriter } from '../service/serviceUtils.ts';
 import { Button, Radio, RadioGroup } from '@nextui-org/react';
 
 type TLActionWithName = TimelineAction & { name: string };

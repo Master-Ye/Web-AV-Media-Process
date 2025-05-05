@@ -1,6 +1,6 @@
 import { AudioClip } from '@webav/av-cliper';
 import { useState, useEffect } from 'react';
-import { assetsPrefix } from '../utils/utils.ts';
+import { assetsPrefix } from '../service/serviceUtils.ts';
 import { Button} from "@nextui-org/react";
 import React from 'react';
 import { Alert } from '@nextui-org/alert';

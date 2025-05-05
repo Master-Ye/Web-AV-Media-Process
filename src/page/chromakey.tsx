@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { assetsPrefix } from '../utils/utils.ts';
+import { assetsPrefix } from '../service/serviceUtils.ts';
 import { Button, Slider } from '@nextui-org/react';
 import { Alert } from '@nextui-org/alert';
 import { createChromakey } from '../utils/chromaKey.ts';

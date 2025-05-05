@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { AVRecorder } from '@webav/av-recorder';
 import React from 'react';
 import { Button, Divider } from '@nextui-org/react';
-import { createFileWriter } from '../utils/utils.ts';
+import { createFileWriter } from '../service/serviceUtils.ts';
 import { Alert } from "@nextui-org/alert";
 let recorder: AVRecorder | null = null;
 async function start(videoEl: HTMLVideoElement) {

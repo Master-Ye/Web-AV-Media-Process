@@ -1,7 +1,7 @@
 import { AudioClip, Combinator, OffscreenSprite } from '@webav/av-cliper';
 import { useState } from 'react';
 import React from 'react';
-import { assetsPrefix, getAudioDuration } from '../utils/utils.ts';
+import { assetsPrefix, getAudioDuration } from '../service/serviceUtils.ts';
 import { CombinatorPlay } from '../components/combinator-player.tsx';
 import Upload from '../components/upload.tsx';
 import { Radio, RadioGroup } from '@nextui-org/react';

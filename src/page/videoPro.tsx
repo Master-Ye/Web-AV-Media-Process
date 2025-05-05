@@ -1,7 +1,7 @@
 
 import { Button } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-import { assetsPrefix } from '../utils/utils.ts';
+import { assetsPrefix } from '../service/serviceUtils.ts';
 import React from 'react';
 import { MP4Clip } from '@webav/av-cliper';
 import { Divider, Radio } from 'antd';

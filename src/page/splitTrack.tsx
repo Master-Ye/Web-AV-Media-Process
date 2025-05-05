@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Combinator, MP4Clip, OffscreenSprite } from '@webav/av-cliper';
-import { assetsPrefix, downloadFromStream } from '../utils/utils.ts';
+import { assetsPrefix, downloadFromStream } from '../service/serviceUtils.ts';
 import { Button, CircularProgress } from '@nextui-org/react';
 import React from 'react';
 import Upload from '../components/upload.tsx';

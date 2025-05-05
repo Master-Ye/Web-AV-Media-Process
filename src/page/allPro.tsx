@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MP4Clip } from '@webav/av-cliper';
 import React from 'react';
-import { assetsPrefix } from '../utils/utils.ts';
+import { assetsPrefix } from '../service/serviceUtils.ts';
 import { Button, Slider } from '@nextui-org/react';
 import Upload from '../components/upload.tsx';
 

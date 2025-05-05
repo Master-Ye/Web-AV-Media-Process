@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MP4Clip } from '@webav/av-cliper';
-import { assetsPrefix } from '../utils/utils.ts';
+import { assetsPrefix } from '../service/serviceUtils.ts';
 import { Button, Chip, Image, Input, Radio, RadioGroup } from "@nextui-org/react";
 import React from 'react';
 import Upload from '../components/upload.tsx';
